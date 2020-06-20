@@ -1,15 +1,24 @@
 import React from "react";
 import "./index.scss";
 import ListItem from "../ListItem/index.jsx";
-
-const _renderItems = [0, 1, 2].map((i)=> {
-    return <ListItem key={i}/>
-})
+import { useSelector } from "react-redux";
 
 const TodoList = (props) => {
-  return <div>
-      {_renderItems}
-  </div>;
+  const todosArray = useSelector((state) => state.todo.todosArray);
+
+  React.useEffect(() => {
+    localStorage.setItem("todoAppList", JSON.stringify(todosArray));
+  }, [todosArray]);
+
+  const _renderItems = React.useMemo(
+    () =>
+      Object.values(todosArray).map((todo, index) => {
+        return <ListItem key={index} todo={todo} />;
+      }),
+    [todosArray]
+  );
+
+  return <div>{_renderItems}</div>;
 };
 
 export default TodoList;

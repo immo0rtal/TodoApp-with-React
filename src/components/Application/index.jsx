@@ -4,6 +4,8 @@ import TodoList from "../TodoList/index.jsx";
 import styled from "styled-components";
 import Header from "../Header/index.jsx";
 import Footer from "../Footer/index.jsx";
+import { createTodo } from "../../store/actions/todo";
+import { useDispatch } from "react-redux";
 
 const Title = styled.h1`
   margin-top: 60px;
@@ -54,14 +56,50 @@ const ItemsCounter = styled.div`
   margin-top: 20px;
 `;
 
-const Application = () => {
+const Application = (props) => {
+  const [title, setTitle] = React.useState("");
+  const dispatch = useDispatch();
+
+  const onInputChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const onInputBlur = () => {
+    if (title !== "") {
+      dispatchTodo();
+    }
+  };
+
+  const onInputKeyDown = (event) => {
+    if (event.keyCode === 13 && title !== "") {
+      dispatchTodo();
+    }
+  };
+
+  const dispatchTodo = () => {
+    dispatch(
+      createTodo({
+        id: Date.now(),
+        title: title,
+        completed: false,
+      })
+    );
+    setTitle("");
+  };
+
   return (
     <Wrapper>
       <Header />
       <Title>TodoApp</Title>
       <ItemsCounter>0 items left</ItemsCounter>
       <div className="todo-input">
-        <Input placeholder="Input your todos" />
+        <Input
+          value={title}
+          onChange={onInputChange}
+          placeholder="Input your todos"
+          onBlur={onInputBlur}
+          onKeyDown={onInputKeyDown}
+        />
       </div>
       <TodoList />
       <Footer />
