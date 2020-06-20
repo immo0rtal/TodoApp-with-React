@@ -6,7 +6,7 @@ const initialState = {
   todosArray: localStorage.getItem("todoAppList")
     ? JSON.parse(localStorage.getItem("todoAppList"))
     : {},
-  filterController: "all",
+  filterController: "ALL",
 };
 
 export const todoReducer = createReducer(initialState, {
@@ -35,6 +35,30 @@ export const todoReducer = createReducer(initialState, {
           completed: !action.payload.completed,
         },
       },
+    };
+  },
+  [ActionTypes.EDIT_TODO_TITLE]: (state, action) => {
+    return {
+      ...state,
+      todosArray: {
+        ...state.todosArray,
+        [action.payload.id]: {
+          ...state.todosArray[action.payload.id],
+          title: action.payload.title,
+        },
+      },
+    };
+  },
+  [ActionTypes.CLEAR_TODOS]: (state) => {
+    return {
+      ...state,
+      todosArray: _.omitBy(state.todosArray, (todo) => todo.completed),
+    };
+  },
+  [ActionTypes.CHANGE_FILTER_TYPE]: (state, action) => {
+    return {
+      ...state,
+      filterController: action.payload.filterType,
     };
   },
 });

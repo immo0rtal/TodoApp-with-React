@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { clearTodos } from "../../store/actions/todo";
 
 const Wrapper = styled.div`
   height: 40px;
@@ -19,12 +21,23 @@ const ClearTodo = styled.a`
   color: #9198a1;
   font-size: 17px;
   text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #e1eaf2;
+  }
 `;
 
 const Footer = () => {
+  const dispatch = useDispatch();
+
+  const clearTodoButton = () => {
+    dispatch(clearTodos());
+  };
+
   return (
     <Wrapper>
-      <ClearTodo>Clear Completed</ClearTodo>
+      <ClearTodo onClick={() => clearTodoButton()}>Clear Completed</ClearTodo>
     </Wrapper>
   );
 };

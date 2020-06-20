@@ -11,3 +11,15 @@ export const deleteTodo = (payload) => {
 export const editTodoCompleted = (payload) => {
   return { type: ActionTypes.EDIT_TODO_COMPLETED, payload };
 };
+
+export const editTodoTitle = (payload) => {
+  return { type: ActionTypes.EDIT_TODO_TITLE, payload };
+};
+
+export const changeFilterType = (payload) => {
+  return { type: ActionTypes.CHANGE_FILTER_TYPE, payload };
+};
+
+export const clearTodos = () => {
+  return { type: ActionTypes.CLEAR_TODOS };
+};

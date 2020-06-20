@@ -2,9 +2,11 @@ import React from "react";
 import "./index.scss";
 import ListItem from "../ListItem/index.jsx";
 import { useSelector } from "react-redux";
+import { filterBy } from "../../utils/filterBy";
 
-const TodoList = (props) => {
+const TodoList = () => {
   const todosArray = useSelector((state) => state.todo.todosArray);
+  const filterType = useSelector((state) => state.todo.filterController);
 
   React.useEffect(() => {
     localStorage.setItem("todoAppList", JSON.stringify(todosArray));
@@ -12,10 +14,10 @@ const TodoList = (props) => {
 
   const _renderItems = React.useMemo(
     () =>
-      Object.values(todosArray).map((todo, index) => {
+      filterBy(Object.values(todosArray), filterType).map((todo, index) => {
         return <ListItem key={index} todo={todo} />;
       }),
-    [todosArray]
+    [todosArray, filterType]
   );
 
   return <div>{_renderItems}</div>;

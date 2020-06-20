@@ -5,7 +5,12 @@ import checkboxFalse from "../../assets/images/checkboxFalse.png";
 import checkboxTrue from "../../assets/images/checkboxTrue.png";
 import deleteIcon from "../../assets/images/deleteIcon.png";
 import { useDispatch } from "react-redux";
-import { deleteTodo, editTodoCompleted } from "../../store/actions/todo";
+import customDblClick from "../../utils/customDbClick"
+import {
+  deleteTodo,
+  editTodoCompleted,
+  editTodoTitle,
+} from "../../store/actions/todo";
 
 const Checkbox = styled.div`
   background: ${(props) =>
@@ -21,6 +26,7 @@ const ItemText = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  user-select: none;
 `;
 
 const DeleteButton = styled.div`
@@ -48,7 +54,19 @@ const Wrapper = styled.div`
   }
 `;
 
+const HiddenInput = styled.input`
+  width: 100%;
+  min-height: 30px;
+  font-size: 25px;
+  font-family: "Merriweather-Regular";
+  background: #343a40;
+  color: #9198a1;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+`;
+
 const ListItem = (props) => {
+  const [editing, setEditing] = React.useState(false);
+  const [text, setText] = React.useState(props.todo.title);
   const dispatch = useDispatch();
 
   const onButtonClick = () => {
@@ -61,11 +79,38 @@ const ListItem = (props) => {
     );
   };
 
+  const editTodo = () => {
+    setEditing(true);
+  };
+
+  const finishEditTodo = () => {
+    setEditing(false);
+    dispatch(editTodoTitle({ title: text, id: props.todo.id }));
+  };
+
+  const onInputChange = (event) => {
+    setText(event.target.value);
+  };
+
   return (
-    <Wrapper>
-      <Checkbox onClick={onCheckboxClick} completed={props.todo.completed} />
-      <ItemText>{props.todo.title}</ItemText>
-      <DeleteButton onClick={onButtonClick} />
+    <Wrapper onClick={customDblClick(() => editTodo())}>
+      {editing ? (
+        <HiddenInput
+          value={text}
+          onChange={(event) => onInputChange(event)}
+          onBlur={() => finishEditTodo()}
+          autoFocus={true}
+        />
+      ) : (
+        <>
+          <Checkbox
+            onClick={onCheckboxClick}
+            completed={props.todo.completed}
+          />
+          <ItemText>{props.todo.title}</ItemText>
+          <DeleteButton onClick={onButtonClick} />
+        </>
+      )}
     </Wrapper>
   );
 };
