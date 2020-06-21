@@ -3,7 +3,7 @@ import { createReducer } from "../../utils/createReducer.js";
 import _ from "lodash";
 
 const initialState = {
-  todosArray: localStorage.getItem("todoAppList")
+  todos: localStorage.getItem("todoAppList")
     ? JSON.parse(localStorage.getItem("todoAppList"))
     : {},
   filterController: "ALL",
@@ -13,8 +13,8 @@ export const todoReducer = createReducer(initialState, {
   [ActionTypes.CREATE_TODO]: (state, action) => {
     return {
       ...state,
-      todosArray: {
-        ...state.todosArray,
+      todos: {
+        ...state.todos,
         [action.payload.id]: action.payload,
       },
     };
@@ -22,16 +22,16 @@ export const todoReducer = createReducer(initialState, {
   [ActionTypes.DELETE_TODO]: (state, action) => {
     return {
       ...state,
-      todosArray: _.omit(state.todosArray, action.payload.id),
+      todos: _.omit(state.todos, action.payload.id),
     };
   },
   [ActionTypes.EDIT_TODO_COMPLETED]: (state, action) => {
     return {
       ...state,
-      todosArray: {
-        ...state.todosArray,
+      todos: {
+        ...state.todos,
         [action.payload.id]: {
-          ...state.todosArray[action.payload.id],
+          ...state.todos[action.payload.id],
           completed: !action.payload.completed,
         },
       },
@@ -40,19 +40,32 @@ export const todoReducer = createReducer(initialState, {
   [ActionTypes.EDIT_TODO_TITLE]: (state, action) => {
     return {
       ...state,
-      todosArray: {
-        ...state.todosArray,
+      todos: {
+        ...state.todos,
         [action.payload.id]: {
-          ...state.todosArray[action.payload.id],
+          ...state.todos[action.payload.id],
           title: action.payload.title,
         },
       },
     };
   },
-  [ActionTypes.CLEAR_TODOS]: (state) => {
+  [ActionTypes.CLEAR_COMPLETED_TODOS]: (state) => {
     return {
       ...state,
-      todosArray: _.omitBy(state.todosArray, (todo) => todo.completed),
+      todos: _.omitBy(state.todos, (todo) => todo.completed),
+    };
+  },
+  [ActionTypes.TOGGLE_ALL_TODOS]: (state, action) => {
+    return {
+      ...state,
+      todos: Object.values(state.todos).reduce((acc, todo) => {
+        if (action.payload.activeTodos > 0) {
+          todo.completed = !todo.completed ? !todo.completed : todo.completed;
+        } else {
+          todo.completed = !todo.completed;
+        }
+        return { ...acc, [todo.id]: todo };
+      }, {}),
     };
   },
   [ActionTypes.CHANGE_FILTER_TYPE]: (state, action) => {

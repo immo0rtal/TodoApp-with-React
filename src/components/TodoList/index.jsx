@@ -3,24 +3,27 @@ import "./index.scss";
 import ListItem from "../ListItem/index.jsx";
 import { useSelector } from "react-redux";
 import { filterBy } from "../../utils/filterBy";
+import styled from "styled-components";
+
+const TodoListWrapper = styled.div``;
 
 const TodoList = () => {
-  const todosArray = useSelector((state) => state.todo.todosArray);
+  const todos = useSelector((state) => state.todo.todos);
   const filterType = useSelector((state) => state.todo.filterController);
 
   React.useEffect(() => {
-    localStorage.setItem("todoAppList", JSON.stringify(todosArray));
-  }, [todosArray]);
+    localStorage.setItem("todoAppList", JSON.stringify(todos));
+  }, [todos]);
 
   const _renderItems = React.useMemo(
     () =>
-      filterBy(Object.values(todosArray), filterType).map((todo, index) => {
+      filterBy(Object.values(todos), filterType).map((todo, index) => {
         return <ListItem key={index} todo={todo} />;
       }),
-    [todosArray, filterType]
+    [todos, filterType]
   );
 
-  return <div>{_renderItems}</div>;
+  return <TodoListWrapper>{_renderItems}</TodoListWrapper>;
 };
 
 export default TodoList;

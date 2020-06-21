@@ -21,5 +21,9 @@ export const changeFilterType = (payload) => {
 };
 
 export const clearTodos = () => {
-  return { type: ActionTypes.CLEAR_TODOS };
+  return { type: ActionTypes.CLEAR_COMPLETED_TODOS };
+};
+
+export const toggleAll = (payload) => {
+  return { type: ActionTypes.TOGGLE_ALL_TODOS, payload };
 };
