@@ -63,7 +63,6 @@ const Wrapper = styled.div`
   }
 
   @media ${device.mobileL} {
-    padding: 16px 16px 16px 16px;
     font-size: 20px;
   }
 `;
@@ -91,7 +90,11 @@ const InnerWrapper = styled.div`
   animation-fill-mode: forwards;
   overflow: hidden;
   padding: 16px 16px 16px 40px;
-  width: 100%
+  width: 100%;
+  
+  @media ${device.mobileL} {
+    padding: 16px 16px 16px 20px;
+  }
 `;
 
 export { Wrapper, Checkbox, ItemText, DeleteButton, HiddenInput, InnerWrapper };
