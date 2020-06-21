@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import device from "../../styles/device";
+import colors from "../../styles/colors";
 
 const Wrapper = styled.div`
   height: 60px;
@@ -7,21 +9,33 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media ${device.tablet} {
+    padding: 20px 50px 0px 50px;
+  }
+
+  @media ${device.mobileL} {
+    padding: 10px 20px 0px 20px;
+  }
 `;
 
 const HeaderItem = styled.a`
   font-family: "Merriweather-Regular";
-  color: #9198a1;
+  color: ${(props) =>
+    props.active ? `${colors.darkwhite}` : `${colors.gray}`};
   font-size: 20px;
   text-decoration: none;
   cursor: pointer;
 
-  &: hover {
-    color: #e1eaf2;
+  @media ${device.laptop} {
+    &: hover {
+      color: ${colors.darkwhite};
+    }
+  }
+
+  @media ${device.mobileL} {
+    font-size: 17px;
   }
 `;
 
-export {
-  Wrapper,
-  HeaderItem,
-};
+export { Wrapper, HeaderItem };

@@ -1,16 +1,12 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeFilterType } from "../../store/actions/todo";
 import { Wrapper, HeaderItem } from "./style.js";
+import SORTING_FILTER from "../../utils/filterTypes";
 
 const Header = () => {
   const dispatch = useDispatch();
-
-  const SORTING_FILTER = {
-    ALL: "ALL",
-    ACTIVE: "ACTIVE",
-    COMPLETED: "COMPLETED",
-  };
+  const filterType = useSelector((state) => state.todo.filterController);
 
   const changeFilter = (event) => {
     const type = event.target.dataset.sortingType;
@@ -24,6 +20,7 @@ const Header = () => {
   ].map((el, index) => (
     <HeaderItem
       key={index}
+      active={el.type === filterType}
       data-sorting-type={el.type}
       onClick={(event) => changeFilter(event)}
     >

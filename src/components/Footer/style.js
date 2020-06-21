@@ -1,12 +1,14 @@
 import styled from "styled-components";
+import device from "../../styles/device";
+import colors from "../../styles/colors";
 
 const Wrapper = styled.div`
   height: 40px;
-  border-top: 2px solid#343a40d8;
+  border-top: 2px solid ${colors.dark};
   position: relative;
   padding-left: 25px;
   padding-top: 10px;
-  color: #e1eaf22f;
+  color: ${colors.lightgray};
   font-size: 15px;
 `;
 
@@ -15,17 +17,20 @@ const ClearTodo = styled.a`
   top: 9px;
   right: 10px;
   font-family: "Merriweather-Regular";
-  color: #9198a1;
+  color: ${colors.gray};
   font-size: 17px;
   text-decoration: none;
   cursor: pointer;
 
-  &:hover {
-    color: #e1eaf2;
+  @media ${device.laptop} {
+    &:hover {
+      color: ${colors.darkwhite};
+    }
+  }
+
+  @media ${device.mobileL} {
+    font-size: 15px;
   }
 `;
 
-export {
-  Wrapper,
-  ClearTodo,
-};
+export { Wrapper, ClearTodo };

@@ -12,21 +12,21 @@ import {
   ItemText,
   DeleteButton,
   HiddenInput,
+  InnerWrapper,
 } from "./style.js";
 
 const ListItem = (props) => {
+  const { todo } = props;
   const [editing, setEditing] = React.useState(false);
-  const [text, setText] = React.useState(props.todo.title);
+  const [text, setText] = React.useState(todo.title);
   const dispatch = useDispatch();
 
   const onButtonClick = () => {
-    dispatch(deleteTodo({ id: props.todo.id }));
+    dispatch(deleteTodo({ id: todo.id }));
   };
 
   const onCheckboxClick = () => {
-    dispatch(
-      editTodoCompleted({ id: props.todo.id, completed: props.todo.completed })
-    );
+    dispatch(editTodoCompleted({ id: todo.id, completed: todo.completed }));
   };
 
   const editTodo = () => {
@@ -35,7 +35,11 @@ const ListItem = (props) => {
 
   const finishEditTodo = () => {
     setEditing(false);
-    dispatch(editTodoTitle({ title: text, id: props.todo.id }));
+    if (!text) {
+      dispatch(deleteTodo({ id: todo.id }));
+    } else {
+      dispatch(editTodoTitle({ title: text, id: todo.id }));
+    }
   };
 
   const onInputChange = (event) => {
@@ -44,23 +48,22 @@ const ListItem = (props) => {
 
   return (
     <Wrapper onClick={customDblClick(() => editTodo())}>
-      {editing ? (
-        <HiddenInput
-          value={text}
-          onChange={(event) => onInputChange(event)}
-          onBlur={() => finishEditTodo()}
-          autoFocus={true}
-        />
-      ) : (
-        <>
-          <Checkbox
-            onClick={onCheckboxClick}
-            completed={props.todo.completed}
+      <InnerWrapper>
+        {editing ? (
+          <HiddenInput
+            value={text}
+            onChange={(event) => onInputChange(event)}
+            onBlur={() => finishEditTodo()}
+            autoFocus={true}
           />
-          <ItemText>{props.todo.title}</ItemText>
-          <DeleteButton onClick={onButtonClick} />
-        </>
-      )}
+        ) : (
+          <>
+            <Checkbox onClick={onCheckboxClick} completed={todo.completed} />
+            <ItemText>{todo.title}</ItemText>
+            <DeleteButton onClick={onButtonClick} />
+          </>
+        )}
+      </InnerWrapper>
     </Wrapper>
   );
 };

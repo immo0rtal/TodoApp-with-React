@@ -1,12 +1,14 @@
 import ActionTypes from "../actions/index";
 import { createReducer } from "../../utils/createReducer.js";
-import _ from "lodash";
+import omit from "lodash/omit";
+import omitBy from "lodash/omitBy"
+import SORTING_FILTER from "../../utils/filterTypes";
 
 const initialState = {
   todos: localStorage.getItem("todoAppList")
     ? JSON.parse(localStorage.getItem("todoAppList"))
     : {},
-  filterController: "ALL",
+  filterController: SORTING_FILTER.ALL,
 };
 
 export const todoReducer = createReducer(initialState, {
@@ -22,7 +24,7 @@ export const todoReducer = createReducer(initialState, {
   [ActionTypes.DELETE_TODO]: (state, action) => {
     return {
       ...state,
-      todos: _.omit(state.todos, action.payload.id),
+      todos: omit(state.todos, action.payload.id),
     };
   },
   [ActionTypes.EDIT_TODO_COMPLETED]: (state, action) => {
@@ -52,7 +54,7 @@ export const todoReducer = createReducer(initialState, {
   [ActionTypes.CLEAR_COMPLETED_TODOS]: (state) => {
     return {
       ...state,
-      todos: _.omitBy(state.todos, (todo) => todo.completed),
+      todos: omitBy(state.todos, (todo) => todo.completed),
     };
   },
   [ActionTypes.TOGGLE_ALL_TODOS]: (state, action) => {

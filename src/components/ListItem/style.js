@@ -1,7 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import checkboxFalse from "../../assets/images/checkboxFalse.png";
 import checkboxTrue from "../../assets/images/checkboxTrue.png";
 import deleteIcon from "../../assets/images/deleteIcon.png";
+import device from "../../styles/device";
+import colors from "../../styles/colors";
+
+const animateFromTop = keyframes`
+  0% { margin-top: -60px; }
+  100% { margin-top: 0; }
+`;
 
 const Checkbox = styled.div`
   background: ${(props) =>
@@ -10,6 +17,11 @@ const Checkbox = styled.div`
   min-height: 30px;
   min-width: 30px;
   cursor: pointer;
+
+  @media ${device.mobileL} {
+    min-width: 25px;
+    min-height: 25px;
+  }
 `;
 
 const ItemText = styled.div`
@@ -18,6 +30,7 @@ const ItemText = styled.div`
   display: flex;
   align-items: center;
   user-select: none;
+  word-break: break-all;
 `;
 
 const DeleteButton = styled.div`
@@ -26,22 +39,32 @@ const DeleteButton = styled.div`
   min-height: 30px;
   min-width: 30px;
   cursor: pointer;
-  opacity: 0%;
+  opacity: 80%;
+
+  @media ${device.laptop} {
+    opacity: 0%;
+  }
+
+  @media ${device.mobileL} {
+    min-height: 25px;
+    min-width: 25px;
+  }
 `;
 
 const Wrapper = styled.div`
-  color: #e1eaf2a4;
   min-height: 100%;
-  list-style-type: none;
-  font-family: "Merriweather-Regular";
-  font-size: 24px;
-  padding: 16px 16px 16px 40px;
   display: flex;
-  align-items: center;
-  position: relative;
+  overflow: hidden;
 
-  &:hover ${DeleteButton} {
-    opacity: 80%;
+  @media ${device.laptop} {
+    &:hover ${DeleteButton} {
+      opacity: 80%;
+    }
+  }
+
+  @media ${device.mobileL} {
+    padding: 16px 16px 16px 16px;
+    font-size: 20px;
   }
 `;
 
@@ -51,14 +74,24 @@ const HiddenInput = styled.input`
   font-size: 25px;
   font-family: "Merriweather-Regular";
   background: #343a40;
-  color: #9198a1;
+  color: ${colors.gray};
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
-export {
-  Wrapper,
-  Checkbox,
-  ItemText,
-  DeleteButton,
-  HiddenInput,
-};
+const InnerWrapper = styled.div`
+  color: ${colors.lightgray};
+  list-style-type: none;
+  font-family: "Merriweather-Regular";
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  animation: ${animateFromTop};
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  padding: 16px 16px 16px 40px;
+  width: 100%
+`;
+
+export { Wrapper, Checkbox, ItemText, DeleteButton, HiddenInput, InnerWrapper };
