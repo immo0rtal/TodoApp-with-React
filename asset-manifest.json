@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/TodoApp-with-React/static/css/main.3a58ad62.chunk.css",
+    "main.js": "/TodoApp-with-React/static/js/main.a821fcc0.chunk.js",
+    "main.js.map": "/TodoApp-with-React/static/js/main.a821fcc0.chunk.js.map",
+    "runtime-main.js": "/TodoApp-with-React/static/js/runtime-main.d01e3248.js",
+    "runtime-main.js.map": "/TodoApp-with-React/static/js/runtime-main.d01e3248.js.map",
+    "static/js/2.36982a41.chunk.js": "/TodoApp-with-React/static/js/2.36982a41.chunk.js",
+    "static/js/2.36982a41.chunk.js.map": "/TodoApp-with-React/static/js/2.36982a41.chunk.js.map",
+    "index.html": "/TodoApp-with-React/index.html",
+    "precache-manifest.e39a9a139e8b43ea0a30de171aaeb848.js": "/TodoApp-with-React/precache-manifest.e39a9a139e8b43ea0a30de171aaeb848.js",
+    "service-worker.js": "/TodoApp-with-React/service-worker.js",
+    "static/css/main.3a58ad62.chunk.css.map": "/TodoApp-with-React/static/css/main.3a58ad62.chunk.css.map",
+    "static/js/2.36982a41.chunk.js.LICENSE.txt": "/TodoApp-with-React/static/js/2.36982a41.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/TodoApp-with-React/static/media/Merriweather-Light.9341552d.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d01e3248.js",
+    "static/js/2.36982a41.chunk.js",
+    "static/css/main.3a58ad62.chunk.css",
+    "static/js/main.a821fcc0.chunk.js"
+  ]
+}
