@@ -30,10 +30,6 @@ const ListItem = (props) => {
   };
 
   const editTodo = () => {
-    setEditing(true);
-  };
-
-  const finishEditTodo = () => {
     setEditing(false);
     if (!text) {
       dispatch(deleteTodo({ id: todo.id }));
@@ -42,19 +38,30 @@ const ListItem = (props) => {
     }
   };
 
+  const finishEditTodoBlur = () => {
+    editTodo();
+  };
+
+  const finishEditTodoKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      editTodo();
+    }
+  };
+
   const onInputChange = (event) => {
     setText(event.target.value);
   };
 
   return (
-    <Wrapper onClick={customDblClick(() => editTodo())}>
+    <Wrapper onClick={customDblClick(() => setEditing(true))}>
       <InnerWrapper>
         {editing ? (
           <HiddenInput
             value={text}
             onChange={(event) => onInputChange(event)}
-            onBlur={() => finishEditTodo()}
+            onBlur={() => finishEditTodoBlur()}
             autoFocus={true}
+            onKeyDown={finishEditTodoKeyDown}
           />
         ) : (
           <>
