@@ -1,16 +1,16 @@
 import styled, { keyframes } from "styled-components";
-import checkboxFalse from "../../assets/images/checkboxFalse.png";
-import checkboxTrue from "../../assets/images/checkboxTrue.png";
-import deleteIcon from "../../assets/images/deleteIcon.png";
-import device from "../../styles/device";
-import colors from "../../styles/colors";
+import checkboxFalse from "#/assets/images/checkboxFalse.png";
+import checkboxTrue from "#/assets/images/checkboxTrue.png";
+import deleteIcon from "#/assets/images/deleteIcon.png";
+import device from "#/styles/device";
+import colors from "#/styles/colors";
 
-const animateFromTop = keyframes`
+export const animateFromTop = keyframes`
   0% { margin-top: -60px; }
   100% { margin-top: 0; }
 `;
 
-const Checkbox = styled.div`
+export const Checkbox = styled.div`
   background: ${(props) =>
     props.completed ? `url(${checkboxTrue})` : `url(${checkboxFalse})`};
   background-size: 100% 100%;
@@ -24,7 +24,7 @@ const Checkbox = styled.div`
   }
 `;
 
-const ItemText = styled.div`
+export const ItemText = styled.div`
   margin-left: 10px;
   width: 100%;
   display: flex;
@@ -33,7 +33,7 @@ const ItemText = styled.div`
   word-break: break-all;
 `;
 
-const DeleteButton = styled.div`
+export const DeleteButton = styled.div`
   background: url(${deleteIcon});
   background-size: 100% 100%;
   min-height: 30px;
@@ -51,7 +51,7 @@ const DeleteButton = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   min-height: 100%;
   display: flex;
   overflow: hidden;
@@ -67,7 +67,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const HiddenInput = styled.input`
+export const HiddenInput = styled.input`
   width: 100%;
   min-height: 30px;
   font-size: 25px;
@@ -77,7 +77,7 @@ const HiddenInput = styled.input`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
-const InnerWrapper = styled.div`
+export const InnerWrapper = styled.div`
   color: ${colors.lightgray};
   list-style-type: none;
   font-family: "Merriweather-Regular";
@@ -96,5 +96,3 @@ const InnerWrapper = styled.div`
     padding: 16px 16px 16px 20px;
   }
 `;
-
-export { Wrapper, Checkbox, ItemText, DeleteButton, HiddenInput, InnerWrapper };

@@ -1,8 +1,18 @@
-import ActionTypes from "../actions/index";
-import { createReducer } from "../../utils/createReducer.js";
-import omit from "lodash/omit";
-import omitBy from "lodash/omitBy"
-import SORTING_FILTER from "../../utils/filterTypes";
+import ActionTypes from "#/store/actions/constants.js";
+import { createReducer } from "#/utils/createReducer.js";
+import pickBy from "lodash/pickBy";
+import { SORTING_FILTER } from "#/utils/constants";
+import { omit } from "#/utils/omit";
+
+const {
+  CREATE_TODO,
+  DELETE_TODO,
+  EDIT_TODO_COMPLETED,
+  EDIT_TODO_TITLE,
+  CLEAR_COMPLETED_TODOS,
+  TOGGLE_ALL_TODOS,
+  CHANGE_FILTER_TYPE,
+} = ActionTypes;
 
 const initialState = {
   todos: localStorage.getItem("todoAppList")
@@ -12,7 +22,7 @@ const initialState = {
 };
 
 export const todoReducer = createReducer(initialState, {
-  [ActionTypes.CREATE_TODO]: (state, action) => {
+  [CREATE_TODO]: (state, action) => {
     return {
       ...state,
       todos: {
@@ -21,13 +31,15 @@ export const todoReducer = createReducer(initialState, {
       },
     };
   },
-  [ActionTypes.DELETE_TODO]: (state, action) => {
+  [DELETE_TODO]: (state, action) => {
+    console.log("huiguig", action.payload.id);
+    console.log(omit(state.todos, [action.payload.id]));
     return {
       ...state,
-      todos: omit(state.todos, action.payload.id),
+      todos: omit(state.todos, [action.payload.id]),
     };
   },
-  [ActionTypes.EDIT_TODO_COMPLETED]: (state, action) => {
+  [EDIT_TODO_COMPLETED]: (state, action) => {
     return {
       ...state,
       todos: {
@@ -39,7 +51,7 @@ export const todoReducer = createReducer(initialState, {
       },
     };
   },
-  [ActionTypes.EDIT_TODO_TITLE]: (state, action) => {
+  [EDIT_TODO_TITLE]: (state, action) => {
     return {
       ...state,
       todos: {
@@ -51,17 +63,17 @@ export const todoReducer = createReducer(initialState, {
       },
     };
   },
-  [ActionTypes.CLEAR_COMPLETED_TODOS]: (state) => {
+  [CLEAR_COMPLETED_TODOS]: (state) => {
     return {
       ...state,
-      todos: omitBy(state.todos, (todo) => todo.completed),
+      todos: pickBy(state.todos, (todo) => !todo.completed),
     };
   },
-  [ActionTypes.TOGGLE_ALL_TODOS]: (state, action) => {
+  [TOGGLE_ALL_TODOS]: (state, action) => {
     return {
       ...state,
       todos: Object.values(state.todos).reduce((acc, todo) => {
-        if (action.payload.activeTodos > 0) {
+        if (action.payload.activeTodosCount > 0) {
           todo.completed = !todo.completed ? !todo.completed : todo.completed;
         } else {
           todo.completed = !todo.completed;
@@ -70,7 +82,7 @@ export const todoReducer = createReducer(initialState, {
       }, {}),
     };
   },
-  [ActionTypes.CHANGE_FILTER_TYPE]: (state, action) => {
+  [CHANGE_FILTER_TYPE]: (state, action) => {
     return {
       ...state,
       filterController: action.payload.filterType,

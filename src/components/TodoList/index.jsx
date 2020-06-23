@@ -1,10 +1,10 @@
 import React from "react";
-import ListItem from "../ListItem/index.jsx";
+import ListItem from "@/ListItem";
 import { useSelector } from "react-redux";
-import { filterBy } from "../../utils/filterBy";
-import { TodoListWrapper, Empty } from "./style.js";
+import { filterBy } from "#/utils/filterBy";
+import * as Styled from "./style.js";
 
-const TodoList = () => {
+const TodoList = React.memo(() => {
   const todos = useSelector((state) => state.todo.todos);
   const filterType = useSelector((state) => state.todo.filterController);
 
@@ -15,14 +15,12 @@ const TodoList = () => {
   const _renderItems = React.useMemo(() => {
     const filteredTodos = filterBy(Object.values(todos), filterType);
     if (!filteredTodos.length) {
-      return <Empty>...</Empty>;
+      return <Styled.Empty>...</Styled.Empty>;
     }
-    return filteredTodos.map((todo) => (
-      <ListItem key={todo.id} todo={todo} />
-    ));
+    return filteredTodos.map((todo) => <ListItem key={todo.id} {...todo} />);
   }, [todos, filterType]);
 
-  return <TodoListWrapper>{_renderItems}</TodoListWrapper>;
-};
+  return <Styled.TodoListWrapper>{_renderItems}</Styled.TodoListWrapper>;
+});
 
 export default TodoList;

@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import device from "../../styles/device";
-import colors from "../../styles/colors";
+import device from "#/styles/device";
+import colors from "#/styles/colors";
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   height: 40px;
   border-top: 2px solid ${colors.dark};
   position: relative;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   font-size: 15px;
 `;
 
-const ClearTodo = styled.a`
+export const ClearTodo = styled.a`
   position: absolute;
   top: 9px;
   right: 10px;
@@ -32,5 +32,3 @@ const ClearTodo = styled.a`
     font-size: 15px;
   }
 `;
-
-export { Wrapper, ClearTodo };

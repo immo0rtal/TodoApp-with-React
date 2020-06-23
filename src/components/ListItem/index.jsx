@@ -1,78 +1,78 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import customDblClick from "../../utils/customDbClick";
+import customDblClick from "#/utils/customDbClick";
 import {
   deleteTodo,
   editTodoCompleted,
   editTodoTitle,
-} from "../../store/actions/todo";
-import {
-  Wrapper,
-  Checkbox,
-  ItemText,
-  DeleteButton,
-  HiddenInput,
-  InnerWrapper,
-} from "./style.js";
+} from "#/store/actions/todo";
+import * as Styled from "./style.js";
 
-const ListItem = (props) => {
-  const { todo } = props;
+const ListItem = React.memo((props) => {
+  const { title, completed, id } = props;
+
   const [editing, setEditing] = React.useState(false);
-  const [text, setText] = React.useState(todo.title);
+  const [text, setText] = React.useState(title);
   const dispatch = useDispatch();
 
-  const onButtonClick = () => {
-    dispatch(deleteTodo({ id: todo.id }));
-  };
+  const handleButtonClick = React.useCallback(() => {
+    dispatch(deleteTodo({ id }));
+  }, [dispatch, id]);
 
-  const onCheckboxClick = () => {
-    dispatch(editTodoCompleted({ id: todo.id, completed: todo.completed }));
-  };
+  const handleCheckboxClick = React.useCallback(() => {
+    dispatch(editTodoCompleted({ id, completed: completed }));
+  }, [dispatch, id, completed]);
 
-  const editTodo = () => {
+  const editTodo = React.useCallback(() => {
     setEditing(false);
     if (!text) {
-      dispatch(deleteTodo({ id: todo.id }));
+      dispatch(deleteTodo({ id }));
     } else {
-      dispatch(editTodoTitle({ title: text, id: todo.id }));
+      dispatch(editTodoTitle({ title: text, id }));
     }
-  };
+  }, [dispatch, id, text]);
 
-  const finishEditTodoBlur = () => {
+  const finishEditTodoBlur = React.useCallback(() => {
     editTodo();
-  };
+  }, [editTodo]);
 
-  const finishEditTodoKeyDown = (event) => {
-    if (event.keyCode === 13) {
-      editTodo();
-    }
-  };
+  const finishEditTodoKeyDown = React.useCallback(
+    (event) => {
+      if (event.keyCode === 13) {
+        editTodo();
+      }
+    },
+    [editTodo]
+  );
 
-  const onInputChange = (event) => {
+  const handleInputChange = React.useCallback((event) => {
     setText(event.target.value);
-  };
+  }, []);
 
   return (
-    <Wrapper onClick={customDblClick(() => setEditing(true))}>
-      <InnerWrapper>
+    <Styled.Wrapper onClick={customDblClick(() => setEditing(true))}>
+      <Styled.InnerWrapper>
         {editing ? (
-          <HiddenInput
+          <Styled.HiddenInput
             value={text}
-            onChange={(event) => onInputChange(event)}
-            onBlur={() => finishEditTodoBlur()}
+            onChange={handleInputChange}
+            onBlur={finishEditTodoBlur}
             autoFocus={true}
             onKeyDown={finishEditTodoKeyDown}
           />
         ) : (
           <>
-            <Checkbox onClick={onCheckboxClick} completed={todo.completed} />
-            <ItemText>{todo.title}</ItemText>
-            <DeleteButton onClick={onButtonClick} />
+            <Styled.Checkbox
+              onClick={handleCheckboxClick}
+              completed={completed}
+            />
+            <Styled.ItemText>{title}</Styled.ItemText>
+            <Styled.DeleteButton onClick={handleButtonClick} />
           </>
         )}
-      </InnerWrapper>
-    </Wrapper>
+      </Styled.InnerWrapper>
+    </Styled.Wrapper>
   );
-};
+});
 
 export default ListItem;
