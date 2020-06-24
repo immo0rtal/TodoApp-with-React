@@ -4,7 +4,7 @@ import { changeFilterType } from "#/store/actions/todo";
 import * as Styled from "./style.js";
 import { menu } from "#/utils/constants";
 
-const Header = React.memo(() => {
+const Header = () => {
   const dispatch = useDispatch();
   const getFilterType = useSelector((state) => state.todo.filterController);
 
@@ -28,6 +28,6 @@ const Header = React.memo(() => {
   ));
 
   return <Styled.Wrapper>{_renderMenu}</Styled.Wrapper>;
-});
+};
 
-export default Header;
+export default React.memo(Header);

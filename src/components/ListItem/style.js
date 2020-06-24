@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components/macro";
 import checkboxFalse from "#/assets/images/checkboxFalse.png";
 import checkboxTrue from "#/assets/images/checkboxTrue.png";
 import deleteIcon from "#/assets/images/deleteIcon.png";

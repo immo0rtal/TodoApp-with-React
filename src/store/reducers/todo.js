@@ -73,12 +73,13 @@ export const todoReducer = createReducer(initialState, {
     return {
       ...state,
       todos: Object.values(state.todos).reduce((acc, todo) => {
+        const _todo = { ...todo }
         if (action.payload.activeTodosCount > 0) {
-          todo.completed = !todo.completed ? !todo.completed : todo.completed;
+          _todo.completed = !_todo.completed ? !_todo.completed : _todo.completed;
         } else {
-          todo.completed = !todo.completed;
+          _todo.completed = !_todo.completed;
         }
-        return { ...acc, [todo.id]: todo };
+        return { ...acc, [_todo.id]: _todo };
       }, {}),
     };
   },

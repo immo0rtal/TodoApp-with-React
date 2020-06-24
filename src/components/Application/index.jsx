@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { declOfNum } from "#/utils/declOfNum.js";
 import * as Styled from "./style.js";
 
-const Application = React.memo(() => {
+const Application = () => {
   const [title, setTitle] = React.useState("");
   const dispatch = useDispatch();
   const getTodos = useSelector((state) => state.todo.todos);
@@ -35,7 +35,7 @@ const Application = React.memo(() => {
 
   const handleInputChange = React.useCallback((event) => {
     setTitle(event.target.value);
-  }, []);
+  }, [setTitle]);
 
   const handleInputKeyDown = React.useCallback(
     (event) => {
@@ -69,6 +69,6 @@ const Application = React.memo(() => {
       <Footer />
     </Styled.Wrapper>
   );
-});
+};
 
-export default Application;
+export default React.memo(Application);

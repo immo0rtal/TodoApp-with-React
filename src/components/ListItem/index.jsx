@@ -8,29 +8,29 @@ import {
 } from "#/store/actions/todo";
 import * as Styled from "./style.js";
 
-const ListItem = React.memo((props) => {
-  const { title, completed, id } = props;
+const ListItem = (props) => {
+  const { todo } = props;
 
   const [editing, setEditing] = React.useState(false);
-  const [text, setText] = React.useState(title);
+  const [text, setText] = React.useState(todo.title);
   const dispatch = useDispatch();
 
   const handleButtonClick = React.useCallback(() => {
-    dispatch(deleteTodo({ id }));
-  }, [dispatch, id]);
+    dispatch(deleteTodo({ id: todo.id }));
+  }, [dispatch, todo.id]);
 
   const handleCheckboxClick = React.useCallback(() => {
-    dispatch(editTodoCompleted({ id, completed: completed }));
-  }, [dispatch, id, completed]);
+    dispatch(editTodoCompleted({ id: todo.id, completed: todo.completed }));
+  }, [dispatch, todo.id, todo.completed]);
 
   const editTodo = React.useCallback(() => {
     setEditing(false);
     if (!text) {
-      dispatch(deleteTodo({ id }));
+      dispatch(deleteTodo({ id: todo.id }));
     } else {
-      dispatch(editTodoTitle({ title: text, id }));
+      dispatch(editTodoTitle({ title: text, id: todo.id }));
     }
-  }, [dispatch, id, text]);
+  }, [dispatch, todo.id, text]);
 
   const finishEditTodoBlur = React.useCallback(() => {
     editTodo();
@@ -45,12 +45,20 @@ const ListItem = React.memo((props) => {
     [editTodo]
   );
 
-  const handleInputChange = React.useCallback((event) => {
-    setText(event.target.value);
-  }, []);
+  const handleInputChange = React.useCallback(
+    (event) => {
+      setText(event.target.value);
+    },
+    [setText]
+  );
+
+  const startEditTodo = React.useCallback(
+    () => setEditing(true),
+    [setEditing]
+  );
 
   return (
-    <Styled.Wrapper onClick={customDblClick(() => setEditing(true))}>
+    <Styled.Wrapper onClick={customDblClick(startEditTodo)}>
       <Styled.InnerWrapper>
         {editing ? (
           <Styled.HiddenInput
@@ -64,15 +72,15 @@ const ListItem = React.memo((props) => {
           <>
             <Styled.Checkbox
               onClick={handleCheckboxClick}
-              completed={completed}
+              completed={todo.completed}
             />
-            <Styled.ItemText>{title}</Styled.ItemText>
+            <Styled.ItemText>{todo.title}</Styled.ItemText>
             <Styled.DeleteButton onClick={handleButtonClick} />
           </>
         )}
       </Styled.InnerWrapper>
     </Styled.Wrapper>
   );
-});
+};
 
-export default ListItem;
+export default React.memo(ListItem);
