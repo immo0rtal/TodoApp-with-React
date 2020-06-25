@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import device from "../../styles/device";
 import colors from "../../styles/colors";
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   height: 60px;
   border-bottom: 2px solid #343a40d8;
   padding: 20px 240px 10px 240px;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const HeaderItem = styled.a`
+export const HeaderItem = styled.a`
   font-family: "Merriweather-Regular";
   color: ${(props) =>
     props.active ? `${colors.darkwhite}` : `${colors.gray}`};
@@ -37,5 +37,3 @@ const HeaderItem = styled.a`
     font-size: 17px;
   }
 `;
-
-export { Wrapper, HeaderItem };

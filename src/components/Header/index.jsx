@@ -1,34 +1,33 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeFilterType } from "../../store/actions/todo";
-import { Wrapper, HeaderItem } from "./style.js";
-import SORTING_FILTER from "../../utils/filterTypes";
+import { changeFilterType } from "#/store/actions/todo";
+import * as Styled from "./style.js";
+import { menu } from "#/utils/constants";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const filterType = useSelector((state) => state.todo.filterController);
+  const getFilterType = useSelector((state) => state.todo.filterController);
 
-  const changeFilter = (event) => {
-    const type = event.target.dataset.sortingType;
-    dispatch(changeFilterType({ filterType: type }));
-  };
+  const changeFilter = React.useCallback(
+    (event) => {
+      const type = event.target.dataset.sortingType;
+      dispatch(changeFilterType({ filterType: type }));
+    },
+    [dispatch]
+  );
 
-  const _renderMenu = [
-    { type: SORTING_FILTER.ALL, name: "All" },
-    { type: SORTING_FILTER.ACTIVE, name: "Active" },
-    { type: SORTING_FILTER.COMPLETED, name: "Completed" },
-  ].map((el, index) => (
-    <HeaderItem
+  const _renderMenu = menu.map((el, index) => (
+    <Styled.HeaderItem
       key={index}
-      active={el.type === filterType}
+      active={el.type === getFilterType}
       data-sorting-type={el.type}
-      onClick={(event) => changeFilter(event)}
+      onClick={changeFilter}
     >
       {el.name}
-    </HeaderItem>
+    </Styled.HeaderItem>
   ));
 
-  return <Wrapper>{_renderMenu}</Wrapper>;
+  return <Styled.Wrapper>{_renderMenu}</Styled.Wrapper>;
 };
 
-export default Header;
+export default React.memo(Header);

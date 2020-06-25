@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import colors from "../../styles/colors"
+import styled from "styled-components/macro";
+import colors from "#/styles/colors"
 
-const TodoListWrapper = styled.div``;
+export const TodoListWrapper = styled.div``;
 
-const Empty = styled.div`
+export const Empty = styled.div`
   height: 50px;
   color: ${colors.lightgray};
   font-family: "Merriweather-Regular";
@@ -11,5 +11,3 @@ const Empty = styled.div`
   text-align: center;
   opacity: 30%;
 `;
-
-export { TodoListWrapper, Empty };

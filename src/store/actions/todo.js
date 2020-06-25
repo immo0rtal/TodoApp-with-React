@@ -1,4 +1,4 @@
-import ActionTypes from "../actions/index";
+import ActionTypes from "./constants";
 
 export const createTodo = (payload) => {
   return { type: ActionTypes.CREATE_TODO, payload };

@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import arrow from "../../assets/images/arrow.png";
-import device from "../../styles/device";
-import colors from "../../styles/colors"
+import styled from "styled-components/macro";
+import arrow from "#/assets/images/arrow.png";
+import device from "#/styles/device";
+import colors from "#/styles/colors"
 
-const Title = styled.h1`
+export const Title = styled.h1`
   margin-top: 60px;
   color: ${colors.darkwhite};
   text-align: center;
@@ -16,7 +16,7 @@ const Title = styled.h1`
   }
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   margin: 2% auto;
   background: #3c424a;
   width: 900px;
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   position: relative;
   height: 72px;
   width: 576px;
@@ -67,7 +67,7 @@ const Input = styled.input`
   }
 `;
 
-const ItemsCounter = styled.div`
+export const ItemsCounter = styled.div`
   text-align: center;
   color: ${colors.gray};
   font-size: 1.5em;
@@ -79,7 +79,7 @@ const ItemsCounter = styled.div`
   }
 `;
 
-const ToggleAll = styled.div`
+export const ToggleAll = styled.div`
   background: url(${arrow});
   background-size: 100% 100%;
   position: absolute;
@@ -97,7 +97,7 @@ const ToggleAll = styled.div`
   }
 `;
 
-const InputWrapper = styled.div`
+export const InputWrapper = styled.div`
   position: relative;
   width: 576px;
   margin: 20px auto 0px;
@@ -106,5 +106,3 @@ const InputWrapper = styled.div`
     width: 100%;
   }
 `;
-
-export { Wrapper, Title, ItemsCounter, InputWrapper, Input, ToggleAll };

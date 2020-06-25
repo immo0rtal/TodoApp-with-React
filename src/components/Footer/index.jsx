@@ -1,19 +1,21 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { clearTodos } from "../../store/actions/todo";
-import { Wrapper, ClearTodo } from "./style.js";
+import { clearTodos } from "#/store/actions/todo";
+import * as Styled from "./style.js";
 
 const Footer = () => {
   const dispatch = useDispatch();
 
-  const clearTodoButton = () => {
+  const clearTodoButton = React.useCallback(() => {
     dispatch(clearTodos());
-  };
+  }, [dispatch]);
 
   return (
-    <Wrapper>
-      <ClearTodo onClick={() => clearTodoButton()}>Clear Completed</ClearTodo>
-    </Wrapper>
+    <Styled.Wrapper>
+      <Styled.ClearTodo onClick={clearTodoButton}>
+        Clear Completed
+      </Styled.ClearTodo>
+    </Styled.Wrapper>
   );
 };
 

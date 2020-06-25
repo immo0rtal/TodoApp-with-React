@@ -1,43 +1,26 @@
 import React from "react";
-import TodoList from "../TodoList/index.jsx";
-import Header from "../Header/index.jsx";
-import Footer from "../Footer/index.jsx";
-import { createTodo, toggleAll } from "../../store/actions/todo";
+import TodoList from "@/TodoList";
+import Header from "@/Header";
+import Footer from "@/Footer";
+import { createTodo, toggleAll } from "#/store/actions/todo";
 import { useDispatch, useSelector } from "react-redux";
-import { declOfNum } from "../../utils/declOfNum.js";
-import {
-  Wrapper,
-  Title,
-  ItemsCounter,
-  InputWrapper,
-  Input,
-  ToggleAll,
-} from "./style.js";
+import { declOfNum } from "#/utils/declOfNum.js";
+import * as Styled from "./style.js";
 
 const Application = () => {
   const [title, setTitle] = React.useState("");
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo.todos);
+  const getTodos = useSelector((state) => state.todo.todos);
 
-  const activeTodos = React.useMemo(() => {
-    return Object.values(todos).filter((todo) => !todo.completed).length;
-  }, [todos]);
+  const activeTodosCount = React.useMemo(() => {
+    return Object.values(getTodos).filter((todo) => !todo.completed).length;
+  }, [getTodos]);
 
-  const _todosLeft = React.useMemo(() => {
-    return `${activeTodos} ${declOfNum(activeTodos)} left`;
-  }, [activeTodos]);
+  const _renderTodosLeftCount = React.useMemo(() => {
+    return `${activeTodosCount} ${declOfNum(activeTodosCount)} left`;
+  }, [activeTodosCount]);
 
-  const onInputChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const onInputKeyDown = (event) => {
-    if (event.keyCode === 13) {
-      dispatchTodo();
-    }
-  };
-
-  const dispatchTodo = () => {
+  const dispatchTodo = React.useCallback(() => {
     if (title !== "") {
       dispatch(
         createTodo({
@@ -48,27 +31,44 @@ const Application = () => {
       );
       setTitle("");
     }
-  };
+  }, [dispatch, title]);
+
+  const handleInputChange = React.useCallback((event) => {
+    setTitle(event.target.value);
+  }, [setTitle]);
+
+  const handleInputKeyDown = React.useCallback(
+    (event) => {
+      if (event.keyCode === 13) {
+        dispatchTodo();
+      }
+    },
+    [dispatchTodo]
+  );
+
+  const handleToggleAll = React.useCallback(() => {
+    dispatch(toggleAll({ activeTodosCount }));
+  }, [dispatch, activeTodosCount]);
 
   return (
-    <Wrapper>
+    <Styled.Wrapper>
       <Header />
-      <Title>TodoApp</Title>
-      <ItemsCounter>{_todosLeft}</ItemsCounter>
-      <InputWrapper>
-        <Input
+      <Styled.Title>TodoApp</Styled.Title>
+      <Styled.ItemsCounter>{_renderTodosLeftCount}</Styled.ItemsCounter>
+      <Styled.InputWrapper>
+        <Styled.Input
           value={title}
-          onChange={onInputChange}
+          onChange={handleInputChange}
           placeholder="Input your todos"
-          onBlur={() => dispatchTodo()}
-          onKeyDown={onInputKeyDown}
+          onBlur={dispatchTodo}
+          onKeyDown={handleInputKeyDown}
         />
-        <ToggleAll onClick={() => dispatch(toggleAll({ activeTodos }))} />
-      </InputWrapper>
+        <Styled.ToggleAll onClick={handleToggleAll} />
+      </Styled.InputWrapper>
       <TodoList />
       <Footer />
-    </Wrapper>
+    </Styled.Wrapper>
   );
 };
 
-export default Application;
+export default React.memo(Application);
